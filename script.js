@@ -15,7 +15,7 @@ function startHourlyTimer() {
 
         // Проверяем, если текущее время XX:00
         if (currentMinutes === 0 && currentSeconds === 0) {
-            signal(false); // Воспроизводим сигнал alarm2.wav
+            signal(); // Воспроизводим сигнал alarm.wav
         } else if (now >= signalTime && now < nextHourSignalTime) {
             // Если текущее время между чч:45 и чч:59
             document.getElementById('timer').innerHTML = "Время!";
@@ -41,14 +41,9 @@ function updateTimer(timeDiff) {
 }
 
 function signal(isStartOfHour) {
-    const alertSound1 = document.getElementById('alertSound1');
-    const alertSound2 = document.getElementById('alertSound2');
+    const alertSound = document.getElementById('alertSound');
 
-    if (isStartOfHour) {
-        alertSound2.play(); // Воспроизводим сигнал alarm2.wav
-    } else {
-        alertSound1.play(); // Воспроизводим сигнал alarm1.wav
-    }
+    alertSound.play();
 }
 
 // Запускаем таймер
