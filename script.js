@@ -16,9 +16,11 @@ function startHourlyTimer() {
         // Проверяем, если текущее время XX:00
         if (currentMinutes === 0 && currentSeconds === 0) {
             signal(); // Воспроизводим сигнал alarm.wav
+        } else if (currentMinutes === 45 && currentSeconds === 0) {
+            signal(); // Воспроизводим сигнал alarm.wav
         } else if (now >= signalTime && now < nextHourSignalTime) {
             // Если текущее время между чч:45 и чч:59
-            document.getElementById('timer').innerHTML = "Время!";
+            document.getElementById('timer').innerHTML = "Таймер будет запущен в начале следующего часа.";
             document.title = "Время!";
             // Смена иконки
             document.getElementById('favicon').href = "images/success-icon.png"
@@ -40,7 +42,7 @@ function updateTimer(timeDiff) {
     document.title = `${minutes}:${seconds}`;
 }
 
-function signal(isStartOfHour) {
+function signal() {
     const alertSound = document.getElementById('alertSound');
 
     alertSound.play();
