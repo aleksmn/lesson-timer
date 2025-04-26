@@ -3,26 +3,32 @@ function padNumber(num) {
 }
 
 function startHourlyTimer() {
-    const now = new Date();
-    const firstSignalTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours(), 45, 0, 0);
-
-    // Если текущее время уже после 45 минут, устанавливаем время на следующий час
-    if (now > firstSignalTime) {
-        firstSignalTime.setHours(firstSignalTime.getHours() + 1);
-    }
-
-    // Обновляем таймер каждую секунду
     setInterval(() => {
-        updateTimer(firstSignalTime);
-    }, 1000);
+        const now = new Date();
+        const currentMinutes = now.getMinutes();
+        const currentSeconds = now.getSeconds();
 
-    // Устанавливаем таймер на первое срабатывание
-    setTimeout(() => {
-        signal();
-        // Устанавливаем интервал на последующие сигналы каждый час
-        setInterval(signal, 60 * 60 * 1000); // 1 час
-    }, firstSignalTime - now);
+        // Проверяем, если текущее время XX:00
+        if (currentMinutes === 0 && currentSeconds === 0) {
+            // Устанавливаем время на 45 минут следующего часа
+            const nextSignalTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours() + 1, 45, 0, 0);
+            signal();
+            // Устанавливаем таймер на следующее срабатывание
+            setTimeout(() => {
+                signal();
+                setInterval(signal, 60 * 60 * 1000); // 1 час
+            }, nextSignalTime - now);
+        } else {
+            // Обновляем таймер
+            const nextSignalTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours(), 45, 0, 0);
+            if (now > nextSignalTime) {
+                nextSignalTime.setHours(nextSignalTime.getHours() + 1);
+            }
+            updateTimer(nextSignalTime);
+        }
+    }, 1000);
 }
+
 
 function updateTimer(targetTime) {
     const now = new Date();
@@ -42,9 +48,6 @@ function updateTimer(targetTime) {
 }
 
 function signal() {
-    // const messageDiv = document.getElementById('message');
-    // const currentTime = new Date().toLocaleTimeString();
-    // messageDiv.innerHTML = `Сигнал в 45 минут! Текущее время: ${currentTime}`;
 
     // Воспроизведение звукового сигнала
     const alertSound = document.getElementById('alertSound');
