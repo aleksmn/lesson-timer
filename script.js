@@ -49,11 +49,6 @@ function signal(isStartOfHour) {
     } else {
         alertSound1.play(); // Воспроизводим сигнал alarm1.wav
     }
-
-    // Вывод сообщения о сигнале
-    const messageDiv = document.getElementById('message');
-    const currentTime = new Date().toLocaleTimeString();
-    messageDiv.innerHTML = `Сигнал в 45 минут! Текущее время: ${currentTime}`;
 }
 
 // Запускаем таймер
